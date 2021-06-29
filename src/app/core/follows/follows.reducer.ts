@@ -38,11 +38,17 @@ const reducer = createReducer(
     ),
     on(
         actionPatientsAddToFollow,
-        (state, action) => ({
-            ...state,
-            patient: state.patient.filter(item => item.code !== action.code),
-            follow: state.follow.concat(action)
-        })
+        (state, action) => {
+            const arr = state.follow.slice();
+            const arr2 = arr.filter((item) => item.code !== action.code);
+
+            return {
+                ...state,
+                patient : state.patient.filter(item => item.code !== action.code),
+                follow : [...arr2.concat(action)]
+            }
+        }
+
     ),
     // *********Follows items*******
     on(
@@ -76,11 +82,16 @@ const reducer = createReducer(
     ),
     on(
         actionOrdersAddToFollow,
-        (state, action) => ({
-            ...state,
-            order: state.order.filter(item => item.orderNum !== action.orderNum),
-            follow: state.follow.concat(action)
-        })
+        (state, action) => {
+            const arr = state.follow.slice();
+            const arr2 = arr.filter((item) => item.orderNum !== action.orderNum);
+
+            return {
+                ...state,
+                order : state.order.filter(item => item.orderNum !== action.orderNum),
+                follow : [...arr2.concat(action)]
+            }
+        }
     ),
 );
 
