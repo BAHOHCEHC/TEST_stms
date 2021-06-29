@@ -1,0 +1,63 @@
+<div class="container">
+    <div rtl>
+        <h1 class="main-heading">{{ 'stms.orders.title' | translate }}</h1>
+        <div class="actions">
+            <a (click)="getOrders()"
+               [disabled]="loading$ | async"
+               class="actions-main"
+               color="primary"
+               mat-raised-button>
+                {{ 'stms.orders.get-orders' | translate }}
+            </a>
+            <!--
+              Endpoint to fetch data: https://api.mocki.io/v2/79fb05cb
+             -->
+
+            <div class="mat-elevation-z8">
+                <div *ngIf="loading$ | async" class="app-loading">
+                    <div class="logo">
+                        <svg class="spinner" viewBox="25 25 50 50">
+                            <circle class="path" cx="50" cy="50" fill="none" r="20" stroke-miterlimit="10"
+                                    stroke-width="2"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <table [dataSource]="orders$ | async" mat-table matSort>
+                    <!-- firstName Column -->
+                    <ng-container matColumnDef="orderName">
+                        <th *matHeaderCellDef mat-header-cell mat-sort-header>OrderName</th>
+                        <td *matCellDef="let row" mat-cell> {{row.orderName}}</td>
+                    </ng-container>
+
+                    <!-- lastName Column -->
+                    <ng-container matColumnDef="identifier">
+                        <th *matHeaderCellDef mat-header-cell mat-sort-header>Identifier</th>
+                        <td *matCellDef="let row" mat-cell> {{row.identifier}} </td>
+                    </ng-container>
+
+                    <!-- BirthDate Column -->
+                    <ng-container matColumnDef="creationDate">
+                        <th *matHeaderCellDef mat-header-cell mat-sort-header>Creation Date</th>
+                        <td *matCellDef="let row" mat-cell> {{row.creationDate?.formattedDate}} </td>
+                    </ng-container>
+
+                    <!-- Actions Column -->
+                    <ng-container matColumnDef="actions">
+                        <th *matHeaderCellDef mat-header-cell mat-sort-header>Add to follows</th>
+                        <mat-cell *matCellDef="let row">
+                            <button (click)="addToFollow(row)"
+                                    color="warn" mat-icon-button>
+                                <mat-icon>favorite</mat-icon>
+                            </button>
+                        </mat-cell>
+                    </ng-container>
+
+                    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+                    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>

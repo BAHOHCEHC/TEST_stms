@@ -1,0 +1,7 @@
+/node/
+node_tmp/
+node_modules/
+npm-debug.log.*
+/.awcache/*
+.vscode/
+/yarn.lock

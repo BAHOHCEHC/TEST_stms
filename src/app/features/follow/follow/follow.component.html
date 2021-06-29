@@ -1,0 +1,56 @@
+<div class="container">
+    <div rtl>
+
+        <h1 class="main-heading">{{ 'stms.follow.title' | translate }}</h1>
+        <div class="actions">
+
+            <mat-form-field appearance="standard">
+                <mat-label>Filter</mat-label>
+                <input #input (keyup)="filter($event)" matInput placeholder="Ex. Mia">
+            </mat-form-field>
+
+            <div class="mat-elevation-z8">
+                <table [dataSource]="follows" mat-table matSort>
+                    <!-- firstName Column -->
+                    <ng-container matColumnDef="firstName">
+                        <th *matHeaderCellDef mat-header-cell mat-sort-header>First name/Order name</th>
+                        <td *matCellDef="let row" mat-cell> {{row.firstName ? row.firstName : row.orderName}}</td>
+                    </ng-container>
+
+                    <!-- lastName Column -->
+                    <ng-container matColumnDef="lastName">
+                        <th *matHeaderCellDef mat-header-cell mat-sort-header>Last name/Identifier</th>
+                        <td *matCellDef="let row" mat-cell> {{row.lastName ? row.lastName : row.identifier }} </td>
+                    </ng-container>
+
+                    <!-- BirthDate Column -->
+                    <ng-container matColumnDef="birthDate">
+                        <th *matHeaderCellDef mat-header-cell mat-sort-header>BirthDate/Creation date</th>
+                        <td *matCellDef="let row"
+                            mat-cell> {{row.birthDate?.formattedDate ? row.birthDate?.formattedDate : row.creationDate?.formattedDate}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="actions">
+                        <th *matHeaderCellDef mat-header-cell mat-sort-header>Remove from follows</th>
+                        <mat-cell *matCellDef="let row">
+                            <button (click)="removeFromFollow(row)"
+                                    aria-label="remove from follow"
+                                    color="warn"
+                                    mat-fab>
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </mat-cell>
+                    </ng-container>
+
+                    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+                    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
+                    <tr *matNoDataRow class="mat-row">
+                        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
